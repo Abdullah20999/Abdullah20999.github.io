@@ -3,52 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة الترطيب الرياضية</title>
+    <title>عبدالله الغنام لصحة أفضل - حاسبة احتياج الماء اليومي</title>
     <style>
+        :root {
+            --primary-color: #1e88e5;
+            --secondary-color: #64b5f6;
+            --accent-color: #0d47a1;
+            --background-color: #f5f5f5;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
-            direction: rtl;
+            line-height: 1.6;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
         
         header {
-            background-color: #0066cc;
+            background-color: var(--primary-color);
             color: white;
-            padding: 20px;
+            padding: 20px 0;
             text-align: center;
-            border-radius: 10px 10px 0 0;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         header h1 {
             margin: 0;
-            font-size: 28px;
+            font-size: 2.5rem;
         }
         
-        .main-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: bold;
-            color: #0066cc;
         }
         
         input, select {
@@ -56,52 +72,94 @@
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
-            direction: rtl;
+            font-size: 1rem;
         }
         
         button {
-            background-color: #0066cc;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 12px 20px;
             border-radius: 5px;
             cursor: pointer;
-            display: block;
-            margin: 20px auto;
+            font-size: 1rem;
+            font-weight: bold;
             transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
         }
         
         button:hover {
-            background-color: #004c99;
+            background-color: var(--accent-color);
         }
         
         .result {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e6f3ff;
-            border-radius: 10px;
             display: none;
+            text-align: center;
+            padding: 20px;
         }
         
-        .result h2 {
-            color: #0066cc;
+        .result h3 {
+            color: var(--accent-color);
             margin-top: 0;
         }
         
-        .result-value {
-            font-size: 24px;
+        .water-amount {
+            font-size: 2rem;
             font-weight: bold;
-            color: #004c99;
-            margin: 10px 0;
+            color: var(--primary-color);
+            margin: 20px 0;
         }
         
-        .advice {
-            margin-top: 20px;
+        .recommendations {
+            background-color: #e3f2fd;
             padding: 15px;
-            background-color: #f0f8ff;
-            border-right: 4px solid #0066cc;
+            border-radius: 5px;
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+        }
+        
+        .progress-bar {
+            height: 30px;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 15px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .water-glasses {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .water-glass {
+            width: 40px;
+            height: 40px;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        
+        .water-glass.filled {
+            opacity: 1;
         }
         
         .tips {
@@ -109,135 +167,341 @@
         }
         
         .tips h3 {
-            color: #0066cc;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
         }
         
-        .tips ul {
-            padding-right: 20px;
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
         }
         
-        .tips li {
-            margin-bottom: 10px;
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>عبدالله الغنام لصحة أفضل</h1>
+            <p>حاسبة احتياج الماء اليومي لصحة مثالية</p>
+        </div>
+    </header>
+    
     <div class="container">
-        <header>
-            <h1>حاسبة الترطيب الرياضية</h1>
-            <p>احسب احتياجك اليومي من الماء بناءً على نشاطك الرياضي</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="form-group">
-                <label for="weight">الوزن (كجم)</label>
-                <input type="number" id="weight" placeholder="أدخل وزنك بالكيلوجرام" min="30" max="200" step="0.1">
-            </div>
+        <div class="card">
+            <h2>احسب احتياجك اليومي من الماء</h2>
+            <p>أدخل بياناتك الشخصية للحصول على تقدير دقيق لكمية الماء التي يحتاجها جسمك يومياً</p>
             
-            <div class="form-group">
-                <label for="activity">مستوى النشاط الرياضي</label>
-                <select id="activity">
-                    <option value="0">حدد مستوى النشاط</option>
-                    <option value="1">خفيف (أقل من 30 دقيقة يومياً)</option>
-                    <option value="2">متوسط (30-60 دقيقة يومياً)</option>
-                    <option value="3">عالي (60-90 دقيقة يومياً)</option>
-                    <option value="4">مكثف (أكثر من 90 دقيقة يومياً)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="climate">المناخ</label>
-                <select id="climate">
-                    <option value="1">معتدل</option>
-                    <option value="1.1">دافئ</option>
-                    <option value="1.2">حار</option>
-                </select>
-            </div>
-            
-            <button onclick="calculateHydration()">احسب احتياجك من الماء</button>
-            
-            <div class="result" id="result">
-                <h2>نتائج حساب احتياج الماء</h2>
-                <p>بناءً على معلوماتك، إليك احتياجك اليومي من الماء:</p>
-                <div class="result-value" id="waterNeeded"></div>
+            <form id="waterForm">
+                <div class="form-group">
+                    <label for="gender">الجنس:</label>
+                    <select id="gender" required>
+                        <option value="">اختر الجنس</option>
+                        <option value="male">ذكر</option>
+                        <option value="female">أنثى</option>
+                    </select>
+                </div>
                 
-                <div class="advice" id="advice">
-                    <!-- سيتم إضافة النصائح هنا بواسطة JavaScript -->
+                <div class="form-group">
+                    <label for="age">العمر (سنوات):</label>
+                    <input type="number" id="age" min="1" max="120" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="weight">الوزن (كغم):</label>
+                    <input type="number" id="weight" min="20" max="300" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="height">الطول (سم):</label>
+                    <input type="number" id="height" min="50" max="250" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity">مستوى النشاط البدني:</label>
+                    <select id="activity" required>
+                        <option value="">اختر مستوى النشاط</option>
+                        <option value="low">منخفض (قليل الحركة)</option>
+                        <option value="moderate">متوسط (تمارين خفيفة 1-3 مرات أسبوعياً)</option>
+                        <option value="high">مرتفع (تمارين متوسطة 3-5 مرات أسبوعياً)</option>
+                        <option value="very_high">مرتفع جداً (تمارين قوية 6-7 مرات أسبوعياً)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="climate">المناخ الحالي:</label>
+                    <select id="climate" required>
+                        <option value="">اختر المناخ</option>
+                        <option value="cold">بارد</option>
+                        <option value="moderate">معتدل</option>
+                        <option value="hot">حار</option>
+                        <option value="very_hot">حار جداً</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="healthCondition">الحالة الصحية:</label>
+                    <select id="healthCondition">
+                        <option value="normal">طبيعية</option>
+                        <option value="pregnant">حامل</option>
+                        <option value="breastfeeding">مرضعة</option>
+                        <option value="kidney">أمراض كلى</option>
+                        <option value="heart">أمراض قلب</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="calculate">احسب احتياجك من الماء</button>
+            </form>
+        </div>
+        
+        <div class="card result" id="resultCard">
+            <h3>نتيجة حساب احتياجك اليومي من الماء</h3>
+            
+            <div class="water-amount" id="waterAmount">0 لتر</div>
+            
+            <div class="progress-container">
+                <p>هدفك اليومي</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill">0%</div>
                 </div>
             </div>
             
+            <div class="water-glasses" id="waterGlasses">
+                <!-- سيتم إنشاء أكواب الماء بواسطة جافاسكريبت -->
+            </div>
+            
+            <div class="recommendations" id="recommendations">
+                <!-- توصيات شخصية ستظهر هنا -->
+            </div>
+            
             <div class="tips">
-                <h3>نصائح للترطيب أثناء ممارسة الرياضة</h3>
+                <h3>نصائح لزيادة استهلاك الماء</h3>
                 <ul>
-                    <li>اشرب 500-600 مل من الماء قبل ساعتين من التمرين</li>
-                    <li>خلال التمرين، اشرب 200-300 مل كل 15-20 دقيقة</li>
-                    <li>بعد التمرين، اشرب 500 مل على الأقل لكل 0.5 كجم من الوزن المفقود</li>
-                    <li>راقب لون البول: اللون الفاتح يشير إلى ترطيب جيد</li>
-                    <li>في الأيام الحارة، زد كمية الماء بنسبة 20-30%</li>
+                    <li>احمل معك زجاجة ماء أينما ذهبت</li>
+                    <li>اشرب كوباً من الماء قبل كل وجبة</li>
+                    <li>استخدم تطبيقات التذكير بشرب الماء</li>
+                    <li>أضف نكهات طبيعية للماء مثل الليمون أو النعناع</li>
+                    <li>اشرب كوباً من الماء عند الاستيقاظ وقبل النوم</li>
+                    <li>تناول أطعمة غنية بالماء مثل الخيار والبطيخ</li>
                 </ul>
             </div>
         </div>
     </div>
+    
+    <footer>
+        <div class="container">
+            <p>جميع الحقوق محفوظة &copy; 2025 - عبدالله الغنام لصحة أفضل</p>
+            <p>تنبيه: هذه الحاسبة تقدم تقديرات عامة فقط وليست بديلاً عن استشارة الطبيب</p>
+        </div>
+    </footer>
 
     <script>
-        function calculateHydration() {
-            // الحصول على قيم المدخلات
-            const weight = parseFloat(document.getElementById('weight').value);
-            const activityLevel = parseInt(document.getElementById('activity').value);
-            const climateMultiplier = parseFloat(document.getElementById('climate').value);
+        document.addEventListener('DOMContentLoaded', function() {
+            const waterForm = document.getElementById('waterForm');
+            const resultCard = document.getElementById('resultCard');
+            const waterAmount = document.getElementById('waterAmount');
+            const progressFill = document.getElementById('progressFill');
+            const waterGlasses = document.getElementById('waterGlasses');
+            const recommendations = document.getElementById('recommendations');
             
-            // التحقق من صحة المدخلات
-            if (isNaN(weight) || weight <= 0 || activityLevel === 0) {
-                alert('الرجاء إدخال جميع البيانات المطلوبة بشكل صحيح');
-                return;
+            // معامل التحويل من مل إلى لتر
+            const ML_TO_LITER = 0.001;
+            
+            // إضافة مستمع للنموذج
+            waterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateWaterNeeds();
+            });
+            
+            function calculateWaterNeeds() {
+                // الحصول على قيم المدخلات
+                const gender = document.getElementById('gender').value;
+                const age = parseInt(document.getElementById('age').value);
+                const weight = parseFloat(document.getElementById('weight').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const activity = document.getElementById('activity').value;
+                const climate = document.getElementById('climate').value;
+                const healthCondition = document.getElementById('healthCondition').value;
+                
+                // حساب الكمية الأساسية بناءً على الوزن (33 مل لكل كيلوغرام)
+                let waterNeeds = weight * 33;
+                
+                // تعديل بناءً على الجنس
+                if (gender === 'male') {
+                    waterNeeds *= 1.1;
+                }
+                
+                // تعديل بناءً على العمر
+                if (age < 30) {
+                    waterNeeds *= 1.1;
+                } else if (age > 55) {
+                    waterNeeds *= 0.95;
+                }
+                
+                // تعديل بناءً على مستوى النشاط
+                switch (activity) {
+                    case 'low':
+                        waterNeeds *= 1.0;
+                        break;
+                    case 'moderate':
+                        waterNeeds *= 1.2;
+                        break;
+                    case 'high':
+                        waterNeeds *= 1.35;
+                        break;
+                    case 'very_high':
+                        waterNeeds *= 1.5;
+                        break;
+                }
+                
+                // تعديل بناءً على المناخ
+                switch (climate) {
+                    case 'cold':
+                        waterNeeds *= 0.95;
+                        break;
+                    case 'moderate':
+                        waterNeeds *= 1.0;
+                        break;
+                    case 'hot':
+                        waterNeeds *= 1.2;
+                        break;
+                    case 'very_hot':
+                        waterNeeds *= 1.4;
+                        break;
+                }
+                
+                // تعديل بناءً على الحالة الصحية
+                switch (healthCondition) {
+                    case 'normal':
+                        waterNeeds *= 1.0;
+                        break;
+                    case 'pregnant':
+                        waterNeeds *= 1.3;
+                        break;
+                    case 'breastfeeding':
+                        waterNeeds *= 1.35;
+                        break;
+                    case 'kidney':
+                        // في حالات أمراض الكلى، يجب استشارة الطبيب
+                        waterNeeds = null;
+                        break;
+                    case 'heart':
+                        // في حالات أمراض القلب، يجب استشارة الطبيب
+                        waterNeeds = null;
+                        break;
+                }
+                
+                // عرض النتائج
+                displayResults(waterNeeds);
             }
             
-            // حساب الاحتياج الأساسي من الماء (مل)
-            let baseWater = weight * 30;
-            
-            // إضافة كمية إضافية بناءً على مستوى النشاط
-            let activityWater = 0;
-            switch(activityLevel) {
-                case 1: // خفيف
-                    activityWater = weight * 5;
-                    break;
-                case 2: // متوسط
-                    activityWater = weight * 10;
-                    break;
-                case 3: // عالي
-                    activityWater = weight * 15;
-                    break;
-                case 4: // مكثف
-                    activityWater = weight * 20;
-                    break;
+            function displayResults(waterNeeds) {
+                if (waterNeeds === null) {
+                    // حالات خاصة تتطلب استشارة طبية
+                    waterAmount.textContent = "استشر طبيبك";
+                    recommendations.innerHTML = "<p><strong>ملاحظة هامة:</strong> في حالتك الصحية، من الضروري استشارة الطبيب لتحديد الكمية المناسبة من الماء يومياً.</p>";
+                    progressFill.style.width = "0%";
+                    progressFill.textContent = "";
+                    waterGlasses.innerHTML = "";
+                } else {
+                    // تحويل من مل إلى لتر وتقريب إلى رقم عشري واحد
+                    const waterLiters = (waterNeeds * ML_TO_LITER).toFixed(1);
+                    
+                    waterAmount.textContent = waterLiters + " لتر";
+                    
+                    // تحديث شريط التقدم (افتراضياً 0%)
+                    progressFill.style.width = "0%";
+                    progressFill.textContent = "0%";
+                    
+                    // إنشاء أكواب الماء (كل كأس = 250 مل)
+                    const glassCount = Math.ceil(waterNeeds / 250);
+                    waterGlasses.innerHTML = "";
+                    
+                    for (let i = 0; i < glassCount; i++) {
+                        const glassImg = document.createElement("img");
+                        glassImg.src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZmlsbD0iIzFlODhlNSIgZD0iTTI0LDhoLTJWN2MwLTAuNi0wLjQtMS0xLTFIOWMtMC42LDAtMSwwLjQtMSwxdjFINmMtMC42LDAtMSwwLjQtMSwxdjJjMCwwLjMsMC4xLDAuNSwwLjMsMC43bDMuMywzLjNjMC4yLDAuMiwwLjMsMC40LDAuNCwwLjdMOS44LDI0YzAuMSwxLDAuOSwxLjcsMS45LDEuOGgwLjFsOC41LDAuOGgwLjFjMS4xLDAsMi0wLjksMi0ybDAuOC04LjRjMC0wLjIsMC4yLTAuNSwwLjQtMC43bDMuMy0zLjNjMC4yLTAuMiwwLjMtMC40LDAuMy0wLjd2LTJDMjUsOC40LDI0LjYsOCwyNCw4eiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0yMiw5SDEwdjFoMTJWOXoiLz48L3N2Zz4=";
+                        glassImg.alt = "كأس ماء";
+                        glassImg.className = "water-glass";
+                        waterGlasses.appendChild(glassImg);
+                    }
+                    
+                    // إظهار الأكواب واحداً تلو الآخر بشكل متحرك
+                    animateWaterProgress(glassCount);
+                    
+                    // إضافة توصيات شخصية
+                    generateRecommendations(waterNeeds, waterLiters);
+                }
+                
+                // إظهار بطاقة النتائج
+                resultCard.style.display = "block";
+                
+                // التمرير إلى بطاقة النتائج
+                resultCard.scrollIntoView({ behavior: 'smooth' });
             }
             
-            // حساب إجمالي احتياج الماء اليومي مع مراعاة المناخ
-            const totalWater = (baseWater + activityWater) * climateMultiplier;
-            
-            // تقريب النتيجة وتحويلها إلى لتر
-            const waterLiters = (Math.round(totalWater / 100) / 10).toFixed(1);
-            
-            // عرض النتيجة
-            document.getElementById('waterNeeded').innerHTML = waterLiters + " لتر يومياً";
-            
-            // إضافة نصائح مخصصة
-            let adviceText = "";
-            if (activityLevel >= 3) {
-                adviceText += "<p><strong>نصيحة للنشاط العالي:</strong> فكر في استخدام مشروبات الإلكتروليت للتمارين التي تستمر لأكثر من ساعة، خاصة في الطقس الحار.</p>";
+            function animateWaterProgress(glassCount) {
+                const glasses = document.querySelectorAll('.water-glass');
+                const totalProgress = 100;
+                const progressPerGlass = totalProgress / glassCount;
+                
+                let currentProgress = 0;
+                let currentGlass = 0;
+                
+                const interval = setInterval(() => {
+                    if (currentGlass >= glassCount) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    
+                    glasses[currentGlass].classList.add('filled');
+                    currentProgress += progressPerGlass;
+                    
+                    progressFill.style.width = currentProgress.toFixed(0) + "%";
+                    progressFill.textContent = currentProgress.toFixed(0) + "%";
+                    
+                    currentGlass++;
+                }, 200);
             }
             
-            if (parseFloat(waterLiters) > 3.5) {
-                adviceText += "<p><strong>ملاحظة مهمة:</strong> قم بتوزيع هذه الكمية على مدار اليوم ولا تشرب أكثر من لتر في الساعة.</p>";
+            function generateRecommendations(waterNeeds, waterLiters) {
+                const gender = document.getElementById('gender').value;
+                const activity = document.getElementById('activity').value;
+                const climate = document.getElementById('climate').value;
+                
+                let recoText = "<p><strong>توصيات شخصية:</strong></p><ul>";
+                
+                // توصيات بناء على مستوى النشاط
+                if (activity === 'high' || activity === 'very_high') {
+                    recoText += "<li>نظراً لمستوى نشاطك العالي، حاول شرب كوب من الماء قبل وبعد التمرين مباشرة.</li>";
+                    recoText += "<li>فكر في استخدام مشروبات الإلكتروليت بعد التمارين الشديدة التي تستمر لأكثر من ساعة.</li>";
+                }
+                
+                // توصيات بناء على المناخ
+                if (climate === 'hot' || climate === 'very_hot') {
+                    recoText += "<li>في الطقس الحار، زد كمية الماء بنسبة 15-20% إضافية عن الكمية المحسوبة.</li>";
+                    recoText += "<li>تجنب النشاط البدني خلال ساعات الذروة الحارة من اليوم.</li>";
+                }
+                
+                // توصيات عامة
+                recoText += "<li>وزع شرب الماء على مدار اليوم بدلاً من شربه دفعة واحدة.</li>";
+                recoText += "<li>يمكنك تقسيم هدفك اليومي (" + waterLiters + " لتر) إلى " + Math.ceil(waterNeeds / 250) + " كوب من الماء.</li>";
+                
+                recoText += "</ul>";
+                
+                recommendations.innerHTML = recoText;
             }
-            
-            adviceText += "<p>يمكنك تتبع استهلاكك للماء باستخدام زجاجة ماء مدرجة أو تطبيق على هاتفك.</p>";
-            
-            document.getElementById('advice').innerHTML = adviceText;
-            
-            // إظهار قسم النتائج
-            document.getElementById('result').style.display = 'block';
-        }
+        });
     </script>
 </body>
 </html>
