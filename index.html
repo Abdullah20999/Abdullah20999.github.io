@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الترطيب الرياضية</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .main-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            direction: rtl;
+        }
+        
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #004c99;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6f3ff;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result h2 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #004c99;
+            margin: 10px 0;
+        }
+        
+        .advice {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-right: 4px solid #0066cc;
+        }
+        
+        .tips {
+            margin-top: 30px;
+        }
+        
+        .tips h3 {
+            color: #0066cc;
+        }
+        
+        .tips ul {
+            padding-right: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>حاسبة الترطيب الرياضية</h1>
+            <p>احسب احتياجك اليومي من الماء بناءً على نشاطك الرياضي</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="form-group">
+                <label for="weight">الوزن (كجم)</label>
+                <input type="number" id="weight" placeholder="أدخل وزنك بالكيلوجرام" min="30" max="200" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="activity">مستوى النشاط الرياضي</label>
+                <select id="activity">
+                    <option value="0">حدد مستوى النشاط</option>
+                    <option value="1">خفيف (أقل من 30 دقيقة يومياً)</option>
+                    <option value="2">متوسط (30-60 دقيقة يومياً)</option>
+                    <option value="3">عالي (60-90 دقيقة يومياً)</option>
+                    <option value="4">مكثف (أكثر من 90 دقيقة يومياً)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="climate">المناخ</label>
+                <select id="climate">
+                    <option value="1">معتدل</option>
+                    <option value="1.1">دافئ</option>
+                    <option value="1.2">حار</option>
+                </select>
+            </div>
+            
+            <button onclick="calculateHydration()">احسب احتياجك من الماء</button>
+            
+            <div class="result" id="result">
+                <h2>نتائج حساب احتياج الماء</h2>
+                <p>بناءً على معلوماتك، إليك احتياجك اليومي من الماء:</p>
+                <div class="result-value" id="waterNeeded"></div>
+                
+                <div class="advice" id="advice">
+                    <!-- سيتم إضافة النصائح هنا بواسطة JavaScript -->
+                </div>
+            </div>
+            
+            <div class="tips">
+                <h3>نصائح للترطيب أثناء ممارسة الرياضة</h3>
+                <ul>
+                    <li>اشرب 500-600 مل من الماء قبل ساعتين من التمرين</li>
+                    <li>خلال التمرين، اشرب 200-300 مل كل 15-20 دقيقة</li>
+                    <li>بعد التمرين، اشرب 500 مل على الأقل لكل 0.5 كجم من الوزن المفقود</li>
+                    <li>راقب لون البول: اللون الفاتح يشير إلى ترطيب جيد</li>
+                    <li>في الأيام الحارة، زد كمية الماء بنسبة 20-30%</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateHydration() {
+            // الحصول على قيم المدخلات
+            const weight = parseFloat(document.getElementById('weight').value);
+            const activityLevel = parseInt(document.getElementById('activity').value);
+            const climateMultiplier = parseFloat(document.getElementById('climate').value);
+            
+            // التحقق من صحة المدخلات
+            if (isNaN(weight) || weight <= 0 || activityLevel === 0) {
+                alert('الرجاء إدخال جميع البيانات المطلوبة بشكل صحيح');
+                return;
+            }
+            
+            // حساب الاحتياج الأساسي من الماء (مل)
+            let baseWater = weight * 30;
+            
+            // إضافة كمية إضافية بناءً على مستوى النشاط
+            let activityWater = 0;
+            switch(activityLevel) {
+                case 1: // خفيف
+                    activityWater = weight * 5;
+                    break;
+                case 2: // متوسط
+                    activityWater = weight * 10;
+                    break;
+                case 3: // عالي
+                    activityWater = weight * 15;
+                    break;
+                case 4: // مكثف
+                    activityWater = weight * 20;
+                    break;
+            }
+            
+            // حساب إجمالي احتياج الماء اليومي مع مراعاة المناخ
+            const totalWater = (baseWater + activityWater) * climateMultiplier;
+            
+            // تقريب النتيجة وتحويلها إلى لتر
+            const waterLiters = (Math.round(totalWater / 100) / 10).toFixed(1);
+            
+            // عرض النتيجة
+            document.getElementById('waterNeeded').innerHTML = waterLiters + " لتر يومياً";
+            
+            // إضافة نصائح مخصصة
+            let adviceText = "";
+            if (activityLevel >= 3) {
+                adviceText += "<p><strong>نصيحة للنشاط العالي:</strong> فكر في استخدام مشروبات الإلكتروليت للتمارين التي تستمر لأكثر من ساعة، خاصة في الطقس الحار.</p>";
+            }
+            
+            if (parseFloat(waterLiters) > 3.5) {
+                adviceText += "<p><strong>ملاحظة مهمة:</strong> قم بتوزيع هذه الكمية على مدار اليوم ولا تشرب أكثر من لتر في الساعة.</p>";
+            }
+            
+            adviceText += "<p>يمكنك تتبع استهلاكك للماء باستخدام زجاجة ماء مدرجة أو تطبيق على هاتفك.</p>";
+            
+            document.getElementById('advice').innerHTML = adviceText;
+            
+            // إظهار قسم النتائج
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
